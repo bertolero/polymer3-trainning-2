@@ -11,8 +11,10 @@ export class MyElement extends LitElement {
 
   static get styles() {
     return css`
-			.mood {
-				color: green;
+			@import "/css/global.css";
+			.main-page {
+			  display: grid;
+			  grid-template-columns: 250px 1fr;
 			}
 		`;
   }
@@ -20,12 +22,6 @@ export class MyElement extends LitElement {
 
   render() {
     return html`
-    <style>
-        .main-page {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-        }    
-    </style>
     <div class="main-page">
         <side-menu></side-menu>
         <content-area></content-area>

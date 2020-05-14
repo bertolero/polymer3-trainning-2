@@ -9,6 +9,7 @@ export default class SideMenu extends LitElement {
 
   static get styles() {
     return css`
+      @import "/css/global.css";
 			.logo {
             text-align: center;
         }
