@@ -9,17 +9,7 @@ export default class ContactsList extends LitElement {
 
   static get styles() {
     return css`
-			.mood {
-				color: green;
-			}
-		`;
-  }
-
-
-  render() {
-    return html`
-    <style>
-        .contacts {
+			.contacts {
             max-width: 800px;
         }
         h2 {
@@ -68,11 +58,15 @@ export default class ContactsList extends LitElement {
             text-align: center;
             margin: 5px 0;
         }
-        .fullname .user-img .category .number .state {
+        .fullname, .user-img, .category, .number, .state {
             font-size: 1.4rem;
             font-weight: 500;
         }
-    </style>
+		`;
+  }
+
+  render() {
+    return html`
     <section class="contacts">
       <h2>Contacts</h2>
       <div class="contact">
