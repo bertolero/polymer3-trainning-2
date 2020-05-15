@@ -2,6 +2,42 @@ import { LitElement, html } from "https://unpkg.com/lit-element/lit-element.js?m
 
 export default class ContactsList extends LitElement {
 
+  constructor() {
+    super();
+    this.allContacts = [];
+  }
+
+  static get properties() {
+    return {
+      allContacts: {type: Array},
+    };
+  }
+
+  displayAllContacts() {
+    return this.allContacts.map((contact) => {
+      return html`
+      <div class="contact">
+        <div class="user-img"></div>
+        <div class="fullname">
+            <span class="text">${contact.first_name} ${contact.last_name}</span>
+            <span class="sub">Name</span>
+        </div>
+        <div class="number">
+            <span class="text">${contact.phone_number}</span>
+            <span class="sub">Phone Number</span>
+        </div>
+        <div class="state">
+            <span class="text">${contact.state}</span>
+            <span class="sub">State</span>
+        </div>
+        <div class="category">
+            <span class="text">${contact.category}</span>
+            <span class="sub">Category</span>
+        </div>
+      </div>
+    `});
+  }
+
   render() {
     return html`
     <style>
@@ -62,44 +98,7 @@ export default class ContactsList extends LitElement {
     </style>
     <section class="contacts">
       <h2>Contacts</h2>
-      <div class="contact">
-        <div class="user-img"></div>
-        <div class="fullname">
-            <span class="text">Gabriel Bertol Pinheiro</span>
-            <span class="sub">Name</span>
-        </div>
-        <div class="number">
-            <span class="text">41-123-456-789</span>
-            <span class="sub">Phone Number</span>
-        </div>
-        <div class="state">
-            <span class="text">PR</span>
-            <span class="sub">State</span>
-        </div>
-        <div class="category">
-            <span class="text">Family</span>
-            <span class="sub">Category</span>
-        </div>
-      </div>
-      <div class="contact">
-        <div class="user-img"></div>
-        <div class="fullname">
-            <span class="text">Gabriel Bertol Pinheiro</span>
-            <span class="sub">Name</span>
-        </div>
-        <div class="number">
-            <span class="text">41-123-456-789</span>
-            <span class="sub">Phone Number</span>
-        </div>
-        <div class="state">
-            <span class="text">PR</span>
-            <span class="sub">State</span>
-        </div>
-        <div class="category">
-            <span class="text">Family</span>
-            <span class="sub">Category</span>
-        </div>
-      </div>
+      ${this.displayAllContacts()}
     </section>
 		`;
   }

@@ -3,17 +3,44 @@ import { LitElement, html } from "https://unpkg.com/lit-element/lit-element.js?m
 export default class AddFormPopup extends LitElement {
   constructor() {
     super();
+    this.formData = {};
+    this.change = this.change.bind(this);
+    this.submitForm = this.submitForm.bind(this)
   }
 
   static get properties() {
     return {
       togglePopup: { type: Function },
-      popupOpen: {type: Boolean}
+      saveContact: { type: Function },
+      popupOpen: {type: Boolean},
+      formData: {type: Object}
     };
   }
 
+  change(event){
+    let formData = {};
+    let name = event.target.name;
+    let value = (event.target.type === 'checkbox') ? event.target.checked : event.target.value;
+
+    formData[name] = value;
+    this.formData = Object.assign(this.formData, formData);
+
+    console.log(this.formData)
+  }
+
+  submitForm(event) {
+    event.preventDefault();
+    const elements = this.shadowRoot.querySelectorAll("input");
+    for (const element of elements) {
+      if(element.type === "text") {
+        element.value = "";
+      }
+    }
+    this.saveContact(this.formData);
+    this.formData = {};
+  }
+
   render() {
-    console.log("add-form-popup " + this.popupOpen);
     return html`
         <style>
           @import "/css/global.css";
@@ -111,7 +138,7 @@ export default class AddFormPopup extends LitElement {
           }
         </style>
         <section class="add-form-popup ${(this.popupOpen) ? 'active': ''}">
-            <form>
+            <form @submit="${this.submitForm}">
                 <div class="closing-btn" @click="${this.togglePopup}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
                         <path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/>
@@ -120,31 +147,43 @@ export default class AddFormPopup extends LitElement {
                 <h2>Add a new contact</h2>
                 <div class="add-form-group first-name">
                     <label for="first_name">First Name</label>
-                    <input type="text" id="first_name">
+                    <input type="text" name="first_name" @keyup="${this.change}">
                 </div>
                 <div class="add-form-group last-name">
                     <label for="last_name">Last Name</label>
-                    <input type="text" id="last_name">
+                    <input type="text" name="last_name" @keyup="${this.change}">
                 </div>
                 <div class="add-form-group address-1">
                     <label for="address_1">Address #1</label>
-                    <input type="text" id="address_1">
+                    <input type="text" name="address_1" @keyup="${this.change}">
                 </div>
                 <div class="add-form-group address-2">
                     <label for="address_2">Address #2</label>
-                    <input type="text" id="address_2">
+                    <input type="text" name="address_2" @keyup="${this.change}">
                 </div>
                 <div class="add-form-group city">
                     <label for="city">City</label>
-                    <input type="text" id="city">
+                    <input type="text" name="city" @keyup="${this.change}">
                 </div>
                 <div class="add-form-group state">
                     <label for="state">State</label>
-                    <input type="text" id="state">
+                    <input type="text" name="state" @keyup="${this.change}">
                 </div>
                 <div class="add-form-group zipcode">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode">
+                    <input type="text" name="zipcode" @keyup="${this.change}">
+                </div>
+                <div class="add-form-group phone_number">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" name="phone_number" @keyup="${this.change}">
+                </div>
+                <div class="add-form-group category">
+                    <label for="category">Category</label>
+                    <input type="text" name="category" @keyup="${this.change}">
+                </div>
+                <div class="add-form-group favorites">
+                    <label for="favorites">Favorites</label>
+                    <input type="text" name="favorites" @keyup="${this.change}">
                 </div>
                 <div class="add-form-group button">
                     <button type="submit">Add</button>
