@@ -1,4 +1,4 @@
-import { css, html, LitElement } from "https://unpkg.com/lit-element/lit-element.js?module";
+import { LitElement, html } from "https://unpkg.com/lit-element/lit-element.js?module";
 
 export default class FavoritesList extends LitElement {
   static get properties() {
@@ -7,8 +7,9 @@ export default class FavoritesList extends LitElement {
     };
   }
 
-  static get styles() {
-    return css`
+  render() {
+    return html`
+    <style>
       @import "/css/global.css";
 			.favorites {
             max-width: 800px;
@@ -83,12 +84,7 @@ export default class FavoritesList extends LitElement {
             font-weight: 500;
             padding: 15px;
         }
-		`;
-  }
-
-
-  render() {
-    return html`
+    </style>
     <section class="favorites">
       <h2>Favorites</h2>
       <div class="card">

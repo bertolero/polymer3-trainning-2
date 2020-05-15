@@ -1,16 +1,22 @@
-import { LitElement, html, css } from "https://unpkg.com/lit-element/lit-element.js?module";
+import { LitElement, html } from "https://unpkg.com/lit-element/lit-element.js?module";
 
 export default class SideMenu extends LitElement {
+
+  constructor() {
+    super();
+  }
+
   static get properties() {
     return {
-      mood: { type: String }
+      togglePopup: { type: Function }
     };
   }
 
-  static get styles() {
-    return css`
-      @import "/css/global.css";
-			.logo {
+  render() {
+    return html`
+     <style>
+        @import "/css/global.css";
+        .logo {
             text-align: center;
         }
         .logo img{
@@ -36,11 +42,7 @@ export default class SideMenu extends LitElement {
         #side-menu nav a span.icon{
           padding: 10px 10px 0 0;
         }
-		`;
-  }
-
-  render() {
-    return html`
+    </style>
     <section id="side-menu">
         <div class="logo">
             <img src="http://pngimg.com/uploads/volvo/volvo_PNG64.png"/>
@@ -48,7 +50,7 @@ export default class SideMenu extends LitElement {
         <div class="menu">
             <div class="title">Contacts</div>        
             <nav>
-                <a href="#"><span class="icon"> + </span> Add Contact</a>
+                <a href="#" @click="${this.togglePopup}"><span class="icon"> + </span> Add Contact</a>
                 <a href="#"><span class="icon"> + </span> Add Contact</a>
                 <a href="#"><span class="icon"> + </span> Add Contact</a>
                 <a href="#"><span class="icon"> + </span> Add Contact</a>

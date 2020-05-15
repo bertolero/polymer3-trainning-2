@@ -1,29 +1,31 @@
-import { css, html, LitElement } from "https://unpkg.com/lit-element/lit-element.js?module";
+import { LitElement, html } from "https://unpkg.com/lit-element/lit-element.js?module";
 import ContactsList from "./contacts-list.js";
 import FavoritesList from "./favorits-list.js";
 import AddFormPopup from "./add-form-popup.js";
 
 export default class ContentArea extends LitElement {
+  constructor() {
+    super();
+  }
+
   static get properties() {
     return {
-      mood: { type: String }
+      togglePopup: { type: Function },
+      popupOpen: {type: Boolean}
     };
   }
 
-  static get styles() {
-    return css`
+  render() {
+    return html`
+    <style>
       @import "/css/global.css";
       #content-area {
         background: #fcfdff;
         padding: 50px 80px;
       }
-		`;
-  }
-
-  render() {
-    return html`
+    </style>
     <section id="content-area">
-        <add-form-popup></add-form-popup>
+        <add-form-popup .togglePopup="${this.togglePopup}" .popupOpen="${this.popupOpen}"></add-form-popup>
         <favorites-list></favorites-list>
         <contacts-list></contacts-list>
     </section>
