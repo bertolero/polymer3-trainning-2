@@ -54,6 +54,7 @@ export default class AddFormPopup extends LitElement {
               display: flex;
               justify-content: center;
               align-items: center;
+              z-index: 2;
               visibility: hidden;
               transition: all .4s ease-in-out;
               opacity: 0;
