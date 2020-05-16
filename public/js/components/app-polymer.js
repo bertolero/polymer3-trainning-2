@@ -10,6 +10,7 @@ export class MyElement extends LitElement {
     this.allContacts = [];
     this.togglePopup = this.togglePopup.bind(this);
     this.saveContact = this.saveContact.bind(this);
+    this.deleteContact = this.deleteContact.bind(this);
   }
 
   static get properties() {
@@ -36,6 +37,16 @@ export class MyElement extends LitElement {
     this.togglePopup();
   }
 
+  deleteContact(contact) {
+    console.log("Deleted contact");
+    console.log(contact);
+    function immutableDelete(arr, index) {
+      return arr.slice(0, index).concat(arr.slice(index+1));
+    }
+    this.allContacts = immutableDelete(this.allContacts, contact);
+    console.log(this.allContacts);
+  }
+
   render() {
     return html`
       <style>
@@ -47,7 +58,7 @@ export class MyElement extends LitElement {
       </style>
       <div class="main-page">
           <side-menu .togglePopup="${this.togglePopup}"></side-menu>
-          <content-area .togglePopup="${this.togglePopup}" .popupOpen="${this.popupOpen}" .saveContact="${this.saveContact}" .allContacts="${this.allContacts}"></content-area>
+          <content-area .togglePopup="${this.togglePopup}" .popupOpen="${this.popupOpen}" .saveContact="${this.saveContact}" .deleteContact="${this.deleteContact}" .allContacts="${this.allContacts}"></content-area>
       </div>
 		`;
   }
