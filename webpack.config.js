@@ -6,13 +6,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const UglifyJS = require('uglify-es');
 
-const DefaultUglifyJsOptions = UglifyJS.default_options();
-const compress = DefaultUglifyJsOptions.compress;
-for (let compressOption in compress) {
-	compress[compressOption] = false;
-}
-compress.unused = true;
-
 module.exports = env => {
 	return {
 		entry: {
@@ -68,7 +61,8 @@ module.exports = env => {
 			minimizer: [
 				new UglifyJsPlugin({
 					uglifyOptions: {
-						compress,
+						compress: {},
+						warnings: true,
 						mangle: false,
 						output: {
 							beautify: env.NODE_ENV !== 'production' ? true : false
