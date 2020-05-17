@@ -1,13 +1,11 @@
 ![Node.js CI](https://github.com/bertolero/polymer3-trainning-2/workflows/Node.js%20CI/badge.svg)
 
 # Dev-Starter-Kit
- *For My Students* 
-If you are doing any of my courses make sure you are using the right version this project is using gulp version 4.0.1 to view previous versions switch branches to older version
+ *Disclaimer* 
 
-So I built this for all the new web developers... My Goal is to save you time from the bullsh*t of spending hours looking for ways to speed up your learning. Sometimes all we want to do is just code.
-(if you are coming from my [youtube channel CodingPhase ](https://www.youtube.com/channel/UC46wWUso9H5KPQcoL9iE3Ug) I will base all my tutorials from this starter kit)
+Base code extracted from https://github.com/codingphasedotcom/Dev-Starter-Kit
 
-I broke it down in simple steps to get you going.
+How to run the app.
 
 ## Steps
 
@@ -24,10 +22,6 @@ I broke it down in simple steps to get you going.
 In the root of this project run on your terminal (if you want you can do this with yarn but thats optional)
 We updated to version 4.0 of gulp so you should have no problems
 ```bash
-    npm install gulp-cli -g
-    npm install gulp 
-    npm install webpack@4.25.1 -g
-    npm install webpack-cli@3.1.2 -g
     npm install
 ```
 

@@ -37,6 +37,7 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
+    "gulp-cli": "^2.2.0",
     "gulp-edgejs": "^0.4.1",
     "gulp-imagemin": "^7.1.0",
     "gulp-pretty-url": "^0.1.1",
