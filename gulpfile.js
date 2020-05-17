@@ -10,6 +10,16 @@ const prettyUrl = require("gulp-pretty-url");
 var del = require("del");
 const gulpEdge = require("gulp-edgejs");
 
+// Delete /public Files
+gulp.task(
+  "clean-dist-folder",
+  gulp.series(() => {
+    return del([
+      "./public"
+    ]);
+  })
+);
+
 // copy manifest file
 gulp.task("copy-manifest", function() {
   return gulp.src("./assets/views/manifest.json").pipe(gulp.dest("./public/"));
@@ -111,23 +121,24 @@ gulp.task(
 // This is your Default Gulp task
 gulp.task(
   "default",
-  gulp.parallel([
-    gulp.series([
-      "webpack:dev",
-      "styles",
-      "imagemin",
-      "copy-manifest",
-      function runningWatch() {
-        gulp.watch("./assets/scss/**/*", gulp.parallel("styles"));
-        gulp.watch("./assets/js/**/*", gulp.parallel("webpack:dev"));
-        gulp.watch("./assets/img/**/*", gulp.parallel("imagemin"));
-        gulp.watch("./assets/views/manifest.json", gulp.parallel("copy-manifest"));
-        gulp.watch(["./public/**/*", "./public/*"]).on("change", reload);
-      }
-    ]),
-    gulp.series(["browser-sync"])
-  ])
-);
+  gulp.series(["clean-dist-folder",
+    gulp.parallel([
+      gulp.series([
+        "webpack:dev",
+        "styles",
+        "imagemin",
+        "copy-manifest",
+        function runningWatch() {
+          gulp.watch("./assets/scss/**/*", gulp.parallel("styles"));
+          gulp.watch("./assets/js/**/*", gulp.parallel("webpack:dev"));
+          gulp.watch("./assets/img/**/*", gulp.parallel("imagemin"));
+          gulp.watch("./assets/views/manifest.json", gulp.parallel("copy-manifest"));
+          gulp.watch(["./public/**/*", "./public/*"]).on("change", reload);
+        }
+      ]),
+      gulp.series(["browser-sync"])
+    ])
+  ]));
 
 // This is the task when running on a backend like PHP, PYTHON, GO, etc..
 gulp.task(
@@ -146,7 +157,15 @@ gulp.task(
   ])
 );
 // This is the production build for your app
-gulp.task("build", gulp.series([gulp.parallel(["styles", "webpack:prod"])]));
+gulp.task("build",
+  gulp.series(["clean-dist-folder",
+    gulp.parallel([
+      "styles",
+      "webpack:prod",
+      "imagemin",
+      "copy-manifest"])
+  ])
+);
 
 /*
 |--------------------------------------------------------------------------
