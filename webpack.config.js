@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const UglifyJS = require("uglify-es");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = env => {
   return {
@@ -47,8 +48,8 @@ module.exports = env => {
         filename: "styles.css" // 'style.[contenthash].css' put this if you want to get hashed files to cache bust
       }),
       new HtmlWebpackPlugin({
-       	hash: true,
-        template: './assets/views/polymer/index.html',
+        hash: true,
+        template: "./assets/views/polymer/index.html"
       }),
       new WebpackMd5Hash(),
       new CopyWebpackPlugin({
@@ -63,10 +64,20 @@ module.exports = env => {
       splitChunks: { chunks: "all", minSize: 0 },
       minimize: true,
       minimizer: [
-        new UglifyJsPlugin({
+        /*new UglifyJsPlugin({
           uglifyOptions: {
             compress: {},
             warnings: true,
+            mangle: false,
+            output: {
+              beautify: env.NODE_ENV !== "production" ? true : false
+            }
+          }
+        })*/
+        new TerserPlugin({
+          terserOptions: {
+            compress: {},
+            warning: true,
             mangle: false,
             output: {
               beautify: env.NODE_ENV !== "production" ? true : false
