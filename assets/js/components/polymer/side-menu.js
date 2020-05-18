@@ -7,9 +7,17 @@ export default class SideMenu extends LitElement {
 	}
 
 	static get properties() {
-		return {
-			togglePopup: { type: Function }
-		};
+		return {};
+	}
+
+	handleAddContactClick(event) {
+		const enableAddContactEvent = new CustomEvent('enable-add-contact', {
+			detail: { message: 'enable-add-contact happened.' },
+			bubbles: true,
+			composed: true
+		});
+		console.debug('side menu trigger enable-add-contact event');
+		this.dispatchEvent(enableAddContactEvent);
 	}
 
 	render() {
@@ -50,7 +58,7 @@ export default class SideMenu extends LitElement {
 				<div class="menu">
 					<div class="title">Contacts</div>
 					<nav>
-						<a href="#" @click="${this.togglePopup}"
+						<a href="#" @click="${this.handleAddContactClick}"
 							><span class="icon"> + </span> Add Contact</a
 						>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>
