@@ -8,9 +8,21 @@ export default class ContactsList extends LitElement {
 
 	static get properties() {
 		return {
-			allContacts: { type: Array },
-			deleteContact: { type: Function }
+			allContacts: { type: Array }
 		};
+	}
+
+	handleDeleteContact(contactId) {
+		console.debug('Delete contact');
+		console.debug(contactId);
+
+		const sendDeleteEvent = new CustomEvent('on-delete-contact', {
+			detail: { contactId: contactId },
+			bubbles: true,
+			composed: true
+		});
+		console.debug(sendDeleteEvent);
+		this.dispatchEvent(sendDeleteEvent);
 	}
 
 	displayAllContacts() {
@@ -36,7 +48,7 @@ export default class ContactsList extends LitElement {
 					</div>
 					<div
 						class="delete-btn"
-						@click="${this.deleteContact.bind(null, index)}"
+						@click="${this.handleDeleteContact.bind(this, index)}"
 					>
 						Delete
 					</div>

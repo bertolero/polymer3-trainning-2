@@ -9,9 +9,9 @@ export class MyElement extends LitElement {
 		super();
 		this.popupOpen = false;
 		this.allContacts = [];
-		this.deleteContact = this.deleteContact.bind(this);
 		this.addEventListener('enable-add-contact', this.enableAddContactOperation);
 		this.addEventListener('send-saved-contact', this.sendSavedContactOperation);
+		this.addEventListener('on-delete-contact', this.onDeleteContactOperation);
 	}
 
 	static get properties() {
@@ -21,15 +21,18 @@ export class MyElement extends LitElement {
 		};
 	}
 
-	deleteContact(contact) {
-		console.debug('Deleted contact');
+	onDeleteContactOperation(contact) {
+		console.debug('app polymer handling send-delete-contact');
 		console.debug(contact);
 
 		function immutableDelete(arr, index) {
 			return arr.slice(0, index).concat(arr.slice(index + 1));
 		}
 
-		this.allContacts = immutableDelete(this.allContacts, contact);
+		this.allContacts = immutableDelete(
+			this.allContacts,
+			contact.detail.contactId
+		);
 		console.debug(this.allContacts);
 	}
 
@@ -64,10 +67,7 @@ export class MyElement extends LitElement {
 			</style>
 			<div class="main-page">
 				<side-menu></side-menu>
-				<content-area
-					.deleteContact="${this.deleteContact}"
-					.allContacts="${this.allContacts}"
-				></content-area>
+				<content-area .allContacts="${this.allContacts}"></content-area>
 				<add-form-popup .popupOpen="${this.popupOpen}"></add-form-popup>
 			</div>
 		`;

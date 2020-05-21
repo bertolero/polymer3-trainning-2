@@ -10,7 +10,6 @@ export default class ContentArea extends LitElement {
 
 	static get properties() {
 		return {
-			deleteContact: { type: Function },
 			allContacts: { type: Array }
 		};
 	}
@@ -26,10 +25,7 @@ export default class ContentArea extends LitElement {
 			</style>
 			<section id="content-area">
 				<favorites-list .allContacts="${this.allContacts}"></favorites-list>
-				<contacts-list
-					.deleteContact="${this.deleteContact}"
-					.allContacts="${this.allContacts}"
-				></contacts-list>
+				<contacts-list .allContacts="${this.allContacts}"></contacts-list>
 			</section>
 		`;
 	}
