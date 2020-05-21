@@ -11,12 +11,12 @@ export default class SideMenu extends LitElement {
 	}
 
 	handleAddContactClick(event) {
-		const enableAddContactEvent = new CustomEvent('enable-add-contact', {
-			detail: { message: 'enable-add-contact happened.' },
+		const enableAddContactEvent = new CustomEvent('on-add-contact-menu-click', {
+			detail: { message: 'on-add-contact-menu-click happened.' },
 			bubbles: true,
 			composed: true
 		});
-		console.debug('side menu trigger enable-add-contact event');
+		console.debug('side menu trigger on-add-contact-menu-click event');
 		this.dispatchEvent(enableAddContactEvent);
 	}
 

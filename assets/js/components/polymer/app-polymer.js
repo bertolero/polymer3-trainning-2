@@ -9,9 +9,13 @@ export class MyElement extends LitElement {
 		super();
 		this.popupOpen = false;
 		this.allContacts = [];
-		this.addEventListener('enable-add-contact', this.enableAddContactOperation);
-		this.addEventListener('send-saved-contact', this.sendSavedContactOperation);
-		this.addEventListener('on-delete-contact', this.onDeleteContactOperation);
+		this.addEventListener(
+			'on-add-contact-menu-click',
+			this.onAddContactMenuClick
+		);
+		this.addEventListener('on-save-contact', this.onSaveContact);
+		this.addEventListener('on-delete-contact', this.onDeleteContact);
+		this.addEventListener('on-close-popup', this.onClosePopup);
 	}
 
 	static get properties() {
@@ -21,8 +25,8 @@ export class MyElement extends LitElement {
 		};
 	}
 
-	onDeleteContactOperation(contact) {
-		console.debug('app polymer handling send-delete-contact');
+	onDeleteContact(contact) {
+		console.debug('app polymer handling on-delete-contact');
 		console.debug(contact);
 
 		function immutableDelete(arr, index) {
@@ -36,8 +40,17 @@ export class MyElement extends LitElement {
 		console.debug(this.allContacts);
 	}
 
-	enableAddContactOperation(event) {
-		console.debug('app polymer handling enable-add-contact');
+	onAddContactMenuClick(event) {
+		console.debug('app polymer handling on-add-contact-menu-click');
+		this.changePopupVisibility();
+	}
+
+	onClosePopup(event) {
+		console.debug('app polymer handling on-close-popup');
+		this.changePopupVisibility();
+	}
+
+	changePopupVisibility() {
 		console.debug('status before event ');
 		console.debug(this.popupOpen);
 		this.popupOpen = !this.popupOpen;
@@ -45,8 +58,8 @@ export class MyElement extends LitElement {
 		console.debug(this.popupOpen);
 	}
 
-	sendSavedContactOperation(event) {
-		console.debug('app polymer handling send-saved-contact');
+	onSaveContact(event) {
+		console.debug('app polymer handling on-save-contact');
 
 		function immutablePush(arr, newEntry) {
 			return [...arr, newEntry];

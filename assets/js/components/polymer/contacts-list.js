@@ -21,6 +21,7 @@ export default class ContactsList extends LitElement {
 			bubbles: true,
 			composed: true
 		});
+		console.debug('contact list trigger on-delete-contact event');
 		console.debug(sendDeleteEvent);
 		this.dispatchEvent(sendDeleteEvent);
 	}

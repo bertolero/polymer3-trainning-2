@@ -38,32 +38,37 @@ export default class AddFormPopup extends LitElement {
 				element.value = '';
 			}
 		}
-		this.handleSaveContact(this.formData);
+		this.onSaveContactEvent(this.formData);
 		this.formData = {};
 	}
 
-	handleSaveContact(contact) {
-		console.debug('Saved contact');
-		console.debug(contact);
-
-		const saveContactEvent = new CustomEvent('send-saved-contact', {
+	onSaveContactEvent(contact) {
+		const saveContactEvent = new CustomEvent('on-save-contact', {
 			detail: { contact: contact },
 			bubbles: true,
 			composed: true
 		});
+		console.debug('add-form-popup trigger on-save-contact event');
 		console.debug(saveContactEvent);
 		this.dispatchEvent(saveContactEvent);
-		this.changePopupVisibility();
+		this.triggerClosePopupEvent();
 	}
 
-	handleToggleAddFormPopup(event) {
-		console.debug('clicked button on add form popup');
-		this.changePopupVisibility();
+	toggleAddFormPopup(event) {
+		console.debug('closing event trigger on on add form popup');
+		this.triggerClosePopupEvent();
 	}
 
-	changePopupVisibility() {
+	triggerClosePopupEvent() {
 		this.popupOpen = !this.popupOpen;
-		console.debug(this.popupOpen);
+		const closePopupEvent = new CustomEvent('on-close-popup', {
+			detail: { close: true },
+			bubbles: true,
+			composed: true
+		});
+		console.debug('add-form-popup trigger on-close-popup event');
+		console.debug(closePopupEvent);
+		this.dispatchEvent(closePopupEvent);
 	}
 
 	render() {
@@ -184,7 +189,7 @@ export default class AddFormPopup extends LitElement {
 			</style>
 			<section class="add-form-popup ${this.popupOpen ? 'active' : ''}">
 				<form @submit="${this.submitForm}">
-					<div class="closing-btn" @click="${this.handleToggleAddFormPopup}">
+					<div class="closing-btn" @click="${this.toggleAddFormPopup}">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
 							<path
 								d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
