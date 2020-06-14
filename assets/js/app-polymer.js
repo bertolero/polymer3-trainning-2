@@ -1,8 +1,8 @@
 import { LitElement } from 'lit-element';
 import { html } from 'lit-html';
-import SideMenu from './side-menu.js';
-import ContentArea from './content-area.js';
-import AddFormPopup from './add-form-popup.js';
+import './components/polymer/side-menu.js';
+import './components/polymer/content-area.js';
+import './components/polymer/add-form-popup.js';
 
 export class MyElement extends LitElement {
 	constructor() {

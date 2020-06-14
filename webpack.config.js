@@ -11,7 +11,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 module.exports = env => {
   return {
     entry: {
-      main: "./assets/js/components/polymer/app-polymer.js"
+      main: "./assets/js/app-polymer.js"
     },
     output: {
       path: path.resolve(__dirname, "public"),
