@@ -19,7 +19,7 @@ gulp.task(
 
 // copy manifest file
 gulp.task('copy-manifest', function() {
-	return gulp.src('./assets/views/manifest.json').pipe(gulp.dest('./public/'));
+	return gulp.src('./assets/view/manifest.json').pipe(gulp.dest('./public/'));
 });
 
 // Compiles SCSS To CSS
@@ -114,7 +114,7 @@ gulp.task(
 					gulp.watch('./assets/scss/**/*', gulp.parallel('styles'));
 					gulp.watch('./assets/js/**/*', gulp.parallel('webpack:dev'));
 					gulp.watch('./assets/img/**/*', gulp.parallel('imagemin'));
-					gulp.watch('./assets/views/manifest.json', gulp.parallel('copy-manifest'));
+					gulp.watch('./assets/view/manifest.json', gulp.parallel('copy-manifest'));
 					gulp.watch(['./public/**/*', './public/*']).on('change', reload);
 				}
 			]),

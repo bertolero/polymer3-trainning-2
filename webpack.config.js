@@ -45,7 +45,7 @@ module.exports = env => {
       }),
       new HtmlWebpackPlugin({
         hash: true,
-        template: "./assets/views/polymer/index.html"
+        template: "./assets/view/index.html"
       }),
       new WebpackMd5Hash(),
       new CopyWebpackPlugin({
