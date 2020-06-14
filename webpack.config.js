@@ -3,15 +3,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const WebpackMd5Hash = require("webpack-md5-hash");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const UglifyJS = require("uglify-es");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = env => {
   return {
     entry: {
-      main: "./assets/js/components/polymer/app-polymer.js"
+      main: "./assets/js/app-polymer.js"
     },
     output: {
       path: path.resolve(__dirname, "public"),
@@ -30,7 +27,6 @@ module.exports = env => {
           exclude: /node_modules/,
           use: ["babel-loader", "prettier-loader"]
         },
-        { test: /\.svelte$/, exclude: /node_modules/, use: "svelte-loader" },
         {
           test: /\.scss$/,
           use: [
@@ -49,7 +45,7 @@ module.exports = env => {
       }),
       new HtmlWebpackPlugin({
         hash: true,
-        template: "./assets/views/polymer/index.html"
+        template: "./assets/view/index.html"
       }),
       new WebpackMd5Hash(),
       new CopyWebpackPlugin({
@@ -64,16 +60,6 @@ module.exports = env => {
       splitChunks: { chunks: "all", minSize: 0 },
       minimize: true,
       minimizer: [
-        /*new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {},
-            warnings: true,
-            mangle: false,
-            output: {
-              beautify: env.NODE_ENV !== "production" ? true : false
-            }
-          }
-        })*/
         new TerserPlugin({
           terserOptions: {
             compress: {},

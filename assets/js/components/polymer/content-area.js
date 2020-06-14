@@ -1,7 +1,7 @@
 import { LitElement } from 'lit-element';
 import { html } from 'lit-html';
-import ContactsList from './contacts-list.js';
-import FavoritesList from './favorits-list.js';
+import './contacts-list.js';
+import './favorits-list.js';
 
 export default class ContentArea extends LitElement {
 	constructor() {
