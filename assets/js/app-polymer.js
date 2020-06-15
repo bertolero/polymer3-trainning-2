@@ -6,7 +6,8 @@ import './components/polymer/content-area.js';
 export class MyElement extends PolymerElement {
 	ready() {
 		super.ready();
-		this.allContacts = [];
+		let storedTodoList = JSON.parse(localStorage.getItem('contact-list'));
+		this.allContacts = storedTodoList === null ? [] : storedTodoList;
 		this.addEventListener(
 			'on-add-contact-menu-click',
 			this.onAddContactMenuClick

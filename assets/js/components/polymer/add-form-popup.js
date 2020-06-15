@@ -29,8 +29,6 @@ class AddFormPopup extends PolymerElement {
 
 		formData[name] = value;
 		this.__formData = Object.assign(this.__formData, formData);
-
-		console.debug(this.__formData);
 	}
 
 	submitForm(event) {
@@ -41,8 +39,18 @@ class AddFormPopup extends PolymerElement {
 				element.value = '';
 			}
 		}
+		this.storeContactList(this.__formData);
 		this.onSaveContactEvent(this.__formData);
 		this.__formData = {};
+	}
+
+	storeContactList(contact) {
+		let storedContactsList = JSON.parse(localStorage.getItem('contact-list'));
+		storedContactsList = storedContactsList === null ? [] : storedContactsList;
+		console.debug('add-form-popup trigger add to contact list operation');
+		console.debug(contact);
+		storedContactsList.push(contact);
+		localStorage.setItem('contact-list', JSON.stringify(storedContactsList));
 	}
 
 	onSaveContactEvent(contact) {
