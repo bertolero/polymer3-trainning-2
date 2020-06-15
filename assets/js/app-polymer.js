@@ -1,13 +1,11 @@
-import { LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { html, PolymerElement } from '@polymer/polymer';
+import './components/polymer/add-form-popup.js';
 import './components/polymer/side-menu.js';
 import './components/polymer/content-area.js';
-import './components/polymer/add-form-popup.js';
 
-export class MyElement extends LitElement {
-	constructor() {
-		super();
-		this.popupOpen = false;
+export class MyElement extends PolymerElement {
+	ready() {
+		super.ready();
 		this.allContacts = [];
 		this.addEventListener(
 			'on-add-contact-menu-click',
@@ -20,7 +18,10 @@ export class MyElement extends LitElement {
 
 	static get properties() {
 		return {
-			popupOpen: { type: Boolean },
+			__popupOpen: {
+				type: Boolean,
+				value: false
+			},
 			allContacts: { type: Array }
 		};
 	}
@@ -51,25 +52,18 @@ export class MyElement extends LitElement {
 	}
 
 	changePopupVisibility() {
-		console.debug('status before event ');
-		console.debug(this.popupOpen);
-		this.popupOpen = !this.popupOpen;
-		console.debug('status after event ');
-		console.debug(this.popupOpen);
+		console.debug(`status before event ${this.__popupOpen}`);
+		this.__popupOpen = !this.__popupOpen;
+		console.debug(`status after event ${this.__popupOpen}`);
 	}
 
 	onSaveContact(event) {
 		console.debug('app polymer handling on-save-contact');
-
-		function immutablePush(arr, newEntry) {
-			return [...arr, newEntry];
-		}
-
-		this.allContacts = immutablePush(this.allContacts, event.detail.contact);
+		this.push('allContacts', event.detail.contact);
 		console.debug(this.allContacts);
 	}
 
-	render() {
+	static get template() {
 		return html`
 			<style>
 				@import '/css/global.css';
@@ -80,8 +74,8 @@ export class MyElement extends LitElement {
 			</style>
 			<div class="main-page">
 				<side-menu></side-menu>
-				<content-area .allContacts="${this.allContacts}"></content-area>
-				<add-form-popup .popupOpen="${this.popupOpen}"></add-form-popup>
+				<content-area all-contacts="[[allContacts]]"></content-area>
+				<add-form-popup open="{{__popupOpen}}"></add-form-popup>
 			</div>
 		`;
 	}

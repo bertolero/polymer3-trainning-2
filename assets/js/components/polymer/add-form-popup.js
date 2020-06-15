@@ -1,18 +1,21 @@
-import { LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { PolymerElement, html } from '@polymer/polymer';
+import '@polymer/polymer/lib/elements/dom-if.js';
 
-export default class AddFormPopup extends LitElement {
-	constructor() {
-		super();
-		this.formData = {};
+class AddFormPopup extends PolymerElement {
+	ready() {
+		super.ready();
+		this.__formData = {};
 		this.change = this.change.bind(this);
 		this.submitForm = this.submitForm.bind(this);
 	}
 
 	static get properties() {
 		return {
-			popupOpen: { type: Boolean },
-			formData: { type: Object }
+			open: {
+				type: Boolean,
+				value: false
+			},
+			__formData: { type: Object }
 		};
 	}
 
@@ -25,9 +28,9 @@ export default class AddFormPopup extends LitElement {
 				: event.target.value;
 
 		formData[name] = value;
-		this.formData = Object.assign(this.formData, formData);
+		this.__formData = Object.assign(this.__formData, formData);
 
-		console.debug(this.formData);
+		console.debug(this.__formData);
 	}
 
 	submitForm(event) {
@@ -38,8 +41,8 @@ export default class AddFormPopup extends LitElement {
 				element.value = '';
 			}
 		}
-		this.onSaveContactEvent(this.formData);
-		this.formData = {};
+		this.onSaveContactEvent(this.__formData);
+		this.__formData = {};
 	}
 
 	onSaveContactEvent(contact) {
@@ -55,12 +58,11 @@ export default class AddFormPopup extends LitElement {
 	}
 
 	toggleAddFormPopup(event) {
-		console.debug('closing event trigger on on add form popup');
 		this.triggerClosePopupEvent();
 	}
 
 	triggerClosePopupEvent() {
-		this.popupOpen = !this.popupOpen;
+		this.open = !this.open;
 		const closePopupEvent = new CustomEvent('on-close-popup', {
 			detail: { close: true },
 			bubbles: true,
@@ -71,7 +73,7 @@ export default class AddFormPopup extends LitElement {
 		this.dispatchEvent(closePopupEvent);
 	}
 
-	render() {
+	static get template() {
 		return html`
 			<style>
 				@import '/css/global.css';
@@ -86,13 +88,9 @@ export default class AddFormPopup extends LitElement {
 					justify-content: center;
 					align-items: center;
 					z-index: 2;
-					visibility: hidden;
-					transition: all 0.4s ease-in-out;
-					opacity: 0;
-				}
-				.add-form-popup.active {
 					visibility: visible;
 					opacity: 1;
+					transition: all 0.4s ease-in-out;
 				}
 				.closing-btn {
 					position: absolute;
@@ -187,61 +185,63 @@ export default class AddFormPopup extends LitElement {
 					text-shadow: 0px 1px 2px rgba(0, 0, 0, 1);
 				}
 			</style>
-			<section class="add-form-popup ${this.popupOpen ? 'active' : ''}">
-				<form @submit="${this.submitForm}">
-					<div class="closing-btn" @click="${this.toggleAddFormPopup}">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
-							<path
-								d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-							/>
-						</svg>
-					</div>
-					<h2>Add a new contact</h2>
-					<div class="add-form-group first-name">
-						<label for="first_name">First Name</label>
-						<input type="text" name="first_name" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group last-name">
-						<label for="last_name">Last Name</label>
-						<input type="text" name="last_name" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group address-1">
-						<label for="address_1">Address #1</label>
-						<input type="text" name="address_1" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group address-2">
-						<label for="address_2">Address #2</label>
-						<input type="text" name="address_2" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group city">
-						<label for="city">City</label>
-						<input type="text" name="city" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group state">
-						<label for="state">State</label>
-						<input type="text" name="state" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group zipcode">
-						<label for="zipcode">Zipcode</label>
-						<input type="text" name="zipcode" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group phone_number">
-						<label for="phone_number">Phone Number</label>
-						<input type="text" name="phone_number" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group category">
-						<label for="category">Category</label>
-						<input type="text" name="category" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group favorites">
-						<label for="favorites">Favorites</label>
-						<input type="text" name="favorites" @keyup="${this.change}" />
-					</div>
-					<div class="add-form-group button">
-						<button type="submit">Add</button>
-					</div>
-				</form>
-			</section>
+			<template is="dom-if" if="{{open}}">
+				<section class="add-form-popup">
+					<form on-submit="submitForm">
+						<div class="closing-btn" on-click="toggleAddFormPopup">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
+								<path
+									d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+								/>
+							</svg>
+						</div>
+						<h2>Add a new contact</h2>
+						<div class="add-form-group first-name">
+							<label for="first_name">First Name</label>
+							<input type="text" name="first_name" on-keyup="change" />
+						</div>
+						<div class="add-form-group last-name">
+							<label for="last_name">Last Name</label>
+							<input type="text" name="last_name" on-keyup="change" />
+						</div>
+						<div class="add-form-group address-1">
+							<label for="address_1">Address #1</label>
+							<input type="text" name="address_1" on-keyup="change" />
+						</div>
+						<div class="add-form-group address-2">
+							<label for="address_2">Address #2</label>
+							<input type="text" name="address_2" on-keyup="change" />
+						</div>
+						<div class="add-form-group city">
+							<label for="city">City</label>
+							<input type="text" name="city" on-keyup="change" />
+						</div>
+						<div class="add-form-group state">
+							<label for="state">State</label>
+							<input type="text" name="state" on-keyup="change" />
+						</div>
+						<div class="add-form-group zipcode">
+							<label for="zipcode">Zipcode</label>
+							<input type="text" name="zipcode" on-keyup="change" />
+						</div>
+						<div class="add-form-group phone_number">
+							<label for="phone_number">Phone Number</label>
+							<input type="text" name="phone_number" on-keyup="change" />
+						</div>
+						<div class="add-form-group category">
+							<label for="category">Category</label>
+							<input type="text" name="category" on-keyup="change" />
+						</div>
+						<div class="add-form-group favorites">
+							<label for="favorites">Favorites</label>
+							<input type="text" name="favorites" on-keyup="change" />
+						</div>
+						<div class="add-form-group button">
+							<button type="submit">Add</button>
+						</div>
+					</form>
+				</section>
+			</template>
 		`;
 	}
 }
