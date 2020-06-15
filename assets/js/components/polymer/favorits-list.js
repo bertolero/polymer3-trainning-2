@@ -1,49 +1,22 @@
-import { LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { PolymerElement, html } from '@polymer/polymer';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
 
-export default class FavoritesList extends LitElement {
-	constructor() {
-		super();
-		this.displayAllFavorites = this.displayAllFavorites.bind(this);
+class FavoritesList extends PolymerElement {
+	ready() {
+		super.ready();
 	}
 
 	static get properties() {
 		return {
-			allContacts: { type: Array }
+			contacts: { type: Array }
 		};
 	}
 
-	displayAllFavorites() {
-		return this.allContacts.map((contact) => {
-			if (contact.favorites === 'yes') {
-				return html`
-					<div class="card">
-						<div class="user-img"></div>
-						<div class="fullname">
-							<span class="text"
-								>${contact.first_name} ${contact.last_name}</span
-							>
-							<span class="sub">Name</span>
-						</div>
-						<div class="number">
-							<span class="text">${contact.phone_number}</span>
-							<span class="sub">Phone Number</span>
-						</div>
-						<div class="state">
-							<span class="text">${contact.state}</span>
-							<span class="sub">State</span>
-						</div>
-						<div class="category">
-							<span class="text">${contact.category}</span>
-							<span class="sub">Category</span>
-						</div>
-					</div>
-				`;
-			}
-		});
+	isFavorite(item) {
+		return item.favorites === 'yes';
 	}
 
-	render() {
+	static get template() {
 		return html`
 			<style>
 				@import '/css/global.css';
@@ -127,7 +100,27 @@ export default class FavoritesList extends LitElement {
 			</style>
 			<section class="favorites">
 				<h2>Favorites</h2>
-				${this.displayAllFavorites()}
+				<template is="dom-repeat" items="{{contacts}}" filter="isFavorite">
+					<div class="card">
+						<div class="user-img"></div>
+						<div class="fullname">
+							<span class="text">{{item.first_name}} {{item.last_name}}</span>
+							<span class="sub">Name</span>
+						</div>
+						<div class="number">
+							<span class="text"> {{item.phone_number}}</span>
+							<span class="sub">Phone Number</span>
+						</div>
+						<div class="state">
+							<span class="text"> {{item.state}}</span>
+							<span class="sub">State</span>
+						</div>
+						<div class="category">
+							<span class="text"> {{item.category}}</span>
+							<span class="sub">Category</span>
+						</div>
+					</div>
+				</template>
 			</section>
 		`;
 	}

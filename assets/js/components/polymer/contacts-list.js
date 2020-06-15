@@ -1,64 +1,31 @@
-import { LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { PolymerElement, html } from '@polymer/polymer';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
 
-export default class ContactsList extends LitElement {
-	constructor() {
-		super();
+class ContactsList extends PolymerElement {
+	ready() {
+		super.ready();
+		this.handleDeleteContact = this.handleDeleteContact.bind(this);
 	}
 
 	static get properties() {
 		return {
-			allContacts: { type: Array }
+			contacts: { type: Array }
 		};
 	}
 
-	handleDeleteContact(contactId) {
-		console.debug('Delete contact');
-		console.debug(contactId);
-
+	handleDeleteContact(event) {
+		console.debug('contact list trigger on-delete-contact. received event');
+		console.debug(event.model.index);
 		const sendDeleteEvent = new CustomEvent('on-delete-contact', {
-			detail: { contactId: contactId },
+			detail: { contactId: event.model.index },
 			bubbles: true,
 			composed: true
 		});
-		console.debug('contact list trigger on-delete-contact event');
-		console.debug(sendDeleteEvent);
+		console.debug('contact list trigger on-delete-contact. propagated event');
 		this.dispatchEvent(sendDeleteEvent);
 	}
 
-	displayAllContacts() {
-		return this.allContacts.map((contact, index) => {
-			return html`
-				<div class="contact">
-					<div class="user-img"></div>
-					<div class="fullname">
-						<span class="text">${contact.first_name} ${contact.last_name}</span>
-						<span class="sub">Name</span>
-					</div>
-					<div class="number">
-						<span class="text">${contact.phone_number}</span>
-						<span class="sub">Phone Number</span>
-					</div>
-					<div class="state">
-						<span class="text">${contact.state}</span>
-						<span class="sub">State</span>
-					</div>
-					<div class="category">
-						<span class="text">${contact.category}</span>
-						<span class="sub">Category</span>
-					</div>
-					<div
-						class="delete-btn"
-						@click="${this.handleDeleteContact.bind(this, index)}"
-					>
-						Delete
-					</div>
-				</div>
-			`;
-		});
-	}
-
-	render() {
+	static get template() {
 		return html`
 			<style>
 				@import '/css/global.css';
@@ -146,7 +113,30 @@ export default class ContactsList extends LitElement {
 			</style>
 			<section class="contacts">
 				<h2>Contacts</h2>
-				${this.displayAllContacts()}
+				<template is="dom-repeat" items="{{contacts}}">
+					<div class="contact">
+						<div class="user-img"></div>
+						<div class="fullname">
+							<span class="text">{{item.first_name}} {{item.last_name}}</span>
+							<span class="sub">Name</span>
+						</div>
+						<div class="number">
+							<span class="text">{{item.phone_number}}</span>
+							<span class="sub">Phone Number</span>
+						</div>
+						<div class="state">
+							<span class="text">{{item.state}}</span>
+							<span class="sub">State</span>
+						</div>
+						<div class="category">
+							<span class="text">{{item.category}}</span>
+							<span class="sub">Category</span>
+						</div>
+						<div class="delete-btn" on-click="handleDeleteContact">
+							Delete
+						</div>
+					</div>
+				</template>
 			</section>
 		`;
 	}

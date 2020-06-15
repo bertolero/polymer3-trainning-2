@@ -1,9 +1,8 @@
-import { LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { html, PolymerElement } from '@polymer/polymer';
 
-export default class SideMenu extends LitElement {
-	constructor() {
-		super();
+class SideMenu extends PolymerElement {
+	ready() {
+		super.ready();
 	}
 
 	static get properties() {
@@ -20,7 +19,7 @@ export default class SideMenu extends LitElement {
 		this.dispatchEvent(enableAddContactEvent);
 	}
 
-	render() {
+	static get template() {
 		return html`
 			<style>
 				@import '/css/global.css';
@@ -58,8 +57,8 @@ export default class SideMenu extends LitElement {
 				<div class="menu">
 					<div class="title">Contacts</div>
 					<nav>
-						<a href="#" @click="${this.handleAddContactClick}"
-							><span class="icon"> + </span> Add Contact</a
+						<a href="#" on-click="handleAddContactClick">
+							<span class="icon"> + </span> Add Contact</a
 						>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>

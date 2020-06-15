@@ -58,7 +58,7 @@
     "@babel/plugin-proposal-decorators": "^7.10.1",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-async-to-generator": "^7.10.1",
-    "lit-element": "^2.3.1",
+    "@polymer/polymer": "^3.4.1",
     "webpack-dev-server": "^3.11.0"
   }
 }

@@ -1,20 +1,15 @@
-import { LitElement } from 'lit-element';
-import { html } from 'lit-html';
+import { PolymerElement, html } from '@polymer/polymer';
 import './contacts-list.js';
 import './favorits-list.js';
 
-export default class ContentArea extends LitElement {
-	constructor() {
-		super();
-	}
-
+class ContentArea extends PolymerElement {
 	static get properties() {
 		return {
 			allContacts: { type: Array }
 		};
 	}
 
-	render() {
+	static get template() {
 		return html`
 			<style>
 				@import '/css/global.css';
@@ -24,8 +19,8 @@ export default class ContentArea extends LitElement {
 				}
 			</style>
 			<section id="content-area">
-				<favorites-list .allContacts="${this.allContacts}"></favorites-list>
-				<contacts-list .allContacts="${this.allContacts}"></contacts-list>
+				<favorites-list contacts="[[allContacts]]"></favorites-list>
+				<contacts-list contacts="[[allContacts]]"></contacts-list>
 			</section>
 		`;
 	}
