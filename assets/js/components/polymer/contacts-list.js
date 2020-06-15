@@ -13,6 +13,17 @@ class ContactsList extends PolymerElement {
 		};
 	}
 
+	storeContactList(contactIndex) {
+		let storedContactsList = JSON.parse(localStorage.getItem('contact-list'));
+		storedContactsList = storedContactsList === null ? [] : storedContactsList;
+		if (storedContactsList.length > 0) {
+			console.debug('contact-list trigger update contact list operation');
+			const deletedContact = storedContactsList.splice(contactIndex, 1);
+			deletedContact.forEach((contact) => console.debug(contact));
+			localStorage.setItem('contact-list', JSON.stringify(storedContactsList));
+		}
+	}
+
 	handleDeleteContact(event) {
 		console.debug('contact list trigger on-delete-contact. received event');
 		console.debug(event.model.index);
@@ -22,6 +33,7 @@ class ContactsList extends PolymerElement {
 			composed: true
 		});
 		console.debug('contact list trigger on-delete-contact. propagated event');
+		this.storeContactList(event.model.index);
 		this.dispatchEvent(sendDeleteEvent);
 	}
 
