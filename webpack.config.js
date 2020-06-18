@@ -23,9 +23,9 @@ module.exports = env => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.ts$/,
           exclude: /node_modules/,
-          use: ["babel-loader", "prettier-loader"]
+          use: ["ts-loader", "prettier-loader"]
         },
         {
           test: /\.scss$/,
