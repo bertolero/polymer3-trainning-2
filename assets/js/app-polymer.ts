@@ -1,12 +1,19 @@
 import { html, PolymerElement } from '@polymer/polymer';
-import './components/polymer/add-form-popup.js';
-import './components/polymer/side-menu.js';
-import './components/polymer/content-area.js';
+import './components/polymer/add-form-popup';
+import './components/polymer/side-menu';
+import './components/polymer/content-area';
 
 export class MyElement extends PolymerElement {
+	private allContacts: any;
+	private __popupOpen: any;
+
+	constructor() {
+		super();
+	}
+
 	ready() {
 		super.ready();
-		let storedTodoList = JSON.parse(localStorage.getItem('contact-list'));
+		let storedTodoList = JSON.parse(localStorage.getItem('contact-list')!);
 		this.allContacts = storedTodoList === null ? [] : storedTodoList;
 		this.addEventListener(
 			'on-add-contact-menu-click',
@@ -27,11 +34,11 @@ export class MyElement extends PolymerElement {
 		};
 	}
 
-	onDeleteContact(contact) {
+	onDeleteContact(contact: any) {
 		console.debug('app polymer handling on-delete-contact');
 		console.debug(contact);
 
-		function immutableDelete(arr, index) {
+		function immutableDelete(arr: any[], index: number) {
 			return arr.slice(0, index).concat(arr.slice(index + 1));
 		}
 
@@ -42,12 +49,12 @@ export class MyElement extends PolymerElement {
 		console.debug(this.allContacts);
 	}
 
-	onAddContactMenuClick(event) {
+	onAddContactMenuClick(event: any) {
 		console.debug('app polymer handling on-add-contact-menu-click');
 		this.changePopupVisibility();
 	}
 
-	onClosePopup(event) {
+	onClosePopup(event: any) {
 		console.debug('app polymer handling on-close-popup');
 		this.changePopupVisibility();
 	}
@@ -58,7 +65,7 @@ export class MyElement extends PolymerElement {
 		console.debug(`status after event ${this.__popupOpen}`);
 	}
 
-	onSaveContact(event) {
+	onSaveContact(event: any) {
 		console.debug('app polymer handling on-save-contact');
 		this.push('allContacts', event.detail.contact);
 		console.debug(this.allContacts);

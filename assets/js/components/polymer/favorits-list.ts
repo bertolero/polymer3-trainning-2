@@ -1,4 +1,4 @@
-import { PolymerElement, html } from '@polymer/polymer';
+import { html, PolymerElement } from '@polymer/polymer';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 
 class FavoritesList extends PolymerElement {
@@ -12,7 +12,7 @@ class FavoritesList extends PolymerElement {
 		};
 	}
 
-	isFavorite(item) {
+	isFavorite(item: any) {
 		return item.favorites === 'yes';
 	}
 

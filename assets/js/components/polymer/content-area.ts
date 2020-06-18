@@ -1,6 +1,6 @@
-import { PolymerElement, html } from '@polymer/polymer';
-import './contacts-list.js';
-import './favorits-list.js';
+import { html, PolymerElement } from '@polymer/polymer';
+import './contacts-list';
+import './favorits-list';
 
 class ContentArea extends PolymerElement {
 	static get properties() {

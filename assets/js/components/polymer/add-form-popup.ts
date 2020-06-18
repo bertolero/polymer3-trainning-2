@@ -2,6 +2,14 @@ import { PolymerElement, html } from '@polymer/polymer';
 import '@polymer/polymer/lib/elements/dom-if.js';
 
 class AddFormPopup extends PolymerElement {
+	open = false;
+
+	private __formData: any = {};
+
+	constructor() {
+		super();
+	}
+
 	ready() {
 		super.ready();
 		this.__formData = {};
@@ -19,8 +27,8 @@ class AddFormPopup extends PolymerElement {
 		};
 	}
 
-	change(event) {
-		let formData = {};
+	change(event: any) {
+		let formData: any = {};
 		let name = event.target.name;
 		let value =
 			event.target.type === 'checkbox'
@@ -31,9 +39,9 @@ class AddFormPopup extends PolymerElement {
 		this.__formData = Object.assign(this.__formData, formData);
 	}
 
-	submitForm(event) {
+	submitForm(event: any) {
 		event.preventDefault();
-		const elements = this.shadowRoot.querySelectorAll('input');
+		const elements = this.shadowRoot!.querySelectorAll('input');
 		for (const element of elements) {
 			if (element.type === 'text') {
 				element.value = '';
@@ -44,8 +52,8 @@ class AddFormPopup extends PolymerElement {
 		this.__formData = {};
 	}
 
-	storeContactList(contact) {
-		let storedContactsList = JSON.parse(localStorage.getItem('contact-list'));
+	storeContactList(contact: any) {
+		let storedContactsList = JSON.parse(localStorage.getItem('contact-list')!);
 		storedContactsList = storedContactsList === null ? [] : storedContactsList;
 		console.debug('add-form-popup trigger add to contact list operation');
 		console.debug(contact);
@@ -53,7 +61,7 @@ class AddFormPopup extends PolymerElement {
 		localStorage.setItem('contact-list', JSON.stringify(storedContactsList));
 	}
 
-	onSaveContactEvent(contact) {
+	onSaveContactEvent(contact: any) {
 		const saveContactEvent = new CustomEvent('on-save-contact', {
 			detail: { contact: contact },
 			bubbles: true,
@@ -65,7 +73,7 @@ class AddFormPopup extends PolymerElement {
 		this.triggerClosePopupEvent();
 	}
 
-	toggleAddFormPopup(event) {
+	toggleAddFormPopup(event: Event) {
 		this.triggerClosePopupEvent();
 	}
 
