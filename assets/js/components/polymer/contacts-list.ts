@@ -1,5 +1,6 @@
 import { html, PolymerElement } from '@polymer/polymer';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
+import { Contact } from './model/contact';
 
 class ContactsList extends PolymerElement {
 	ready() {
@@ -9,7 +10,7 @@ class ContactsList extends PolymerElement {
 
 	static get properties() {
 		return {
-			contacts: { type: Array }
+			contacts: { type: Array<Contact>() }
 		};
 	}
 
@@ -19,7 +20,7 @@ class ContactsList extends PolymerElement {
 		if (storedContactsList.length > 0) {
 			console.debug('contact-list trigger update contact list operation');
 			const deletedContact = storedContactsList.splice(contactIndex, 1);
-			deletedContact.forEach((contact: any) => console.debug(contact));
+			deletedContact.forEach((contact: Contact) => console.debug(contact));
 			localStorage.setItem('contact-list', JSON.stringify(storedContactsList));
 		}
 	}
@@ -27,8 +28,8 @@ class ContactsList extends PolymerElement {
 	handleDeleteContact(event: any) {
 		console.debug('contact list trigger on-delete-contact. received event');
 		console.debug(event.model.index);
-		const sendDeleteEvent = new CustomEvent('on-delete-contact', {
-			detail: { contactId: event.model.index },
+		const sendDeleteEvent = new CustomEvent<number>('on-delete-contact', {
+			detail: event.model.index,
 			bubbles: true,
 			composed: true
 		});
@@ -129,11 +130,11 @@ class ContactsList extends PolymerElement {
 					<div class="contact">
 						<div class="user-img"></div>
 						<div class="fullname">
-							<span class="text">{{item.first_name}} {{item.last_name}}</span>
+							<span class="text">{{item.firstName}} {{item.lastName}}</span>
 							<span class="sub">Name</span>
 						</div>
 						<div class="number">
-							<span class="text">{{item.phone_number}}</span>
+							<span class="text">{{item.phoneNumber}}</span>
 							<span class="sub">Phone Number</span>
 						</div>
 						<div class="state">

@@ -9,7 +9,7 @@ class SideMenu extends PolymerElement {
 		return {};
 	}
 
-	handleAddContactClick(event: any) {
+	handleAddContactClick(event: Event) {
 		const enableAddContactEvent = new CustomEvent('on-add-contact-menu-click', {
 			detail: { message: 'on-add-contact-menu-click happened.' },
 			bubbles: true,

@@ -1,18 +1,19 @@
 import { PolymerElement, html } from '@polymer/polymer';
 import '@polymer/polymer/lib/elements/dom-if.js';
+import { Contact } from './model/contact';
 
 class AddFormPopup extends PolymerElement {
 	open = false;
 
-	private __formData: any = {};
+	private __formData: Contact;
 
 	constructor() {
 		super();
+		this.__formData = new Contact();
 	}
 
 	ready() {
 		super.ready();
-		this.__formData = {};
 		this.change = this.change.bind(this);
 		this.submitForm = this.submitForm.bind(this);
 	}
@@ -28,15 +29,10 @@ class AddFormPopup extends PolymerElement {
 	}
 
 	change(event: any) {
-		let formData: any = {};
 		let name = event.target.name;
 		let value =
-			event.target.type === 'checkbox'
-				? event.target.checked
-				: event.target.value;
-
-		formData[name] = value;
-		this.__formData = Object.assign(this.__formData, formData);
+			event.type === 'checkbox' ? event.target.checked : event.target.value;
+		this.__formData.addValueOrIgnore(name, value);
 	}
 
 	submitForm(event: any) {
@@ -49,10 +45,10 @@ class AddFormPopup extends PolymerElement {
 		}
 		this.storeContactList(this.__formData);
 		this.onSaveContactEvent(this.__formData);
-		this.__formData = {};
+		this.__formData = new Contact();
 	}
 
-	storeContactList(contact: any) {
+	storeContactList(contact: Contact) {
 		let storedContactsList = JSON.parse(localStorage.getItem('contact-list')!);
 		storedContactsList = storedContactsList === null ? [] : storedContactsList;
 		console.debug('add-form-popup trigger add to contact list operation');
@@ -61,9 +57,9 @@ class AddFormPopup extends PolymerElement {
 		localStorage.setItem('contact-list', JSON.stringify(storedContactsList));
 	}
 
-	onSaveContactEvent(contact: any) {
-		const saveContactEvent = new CustomEvent('on-save-contact', {
-			detail: { contact: contact },
+	onSaveContactEvent(contact: Contact) {
+		const saveContactEvent = new CustomEvent<Contact>('on-save-contact', {
+			detail: contact,
 			bubbles: true,
 			composed: true
 		});
@@ -79,8 +75,8 @@ class AddFormPopup extends PolymerElement {
 
 	triggerClosePopupEvent() {
 		this.open = !this.open;
-		const closePopupEvent = new CustomEvent('on-close-popup', {
-			detail: { close: true },
+		const closePopupEvent = new CustomEvent<boolean>('on-close-popup', {
+			detail: true,
 			bubbles: true,
 			composed: true
 		});
