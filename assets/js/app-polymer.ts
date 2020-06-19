@@ -17,9 +17,7 @@ export class MyElement extends PolymerElement {
 
 	ready() {
 		super.ready();
-		let storedTodoList = JSON.parse(localStorage.getItem('contact-list')!);
-		this.allContacts =
-			storedTodoList === null ? [] : plainToClass(Contact, storedTodoList);
+		this.allContacts = this.loadStorage();
 		this.addEventListener(
 			'on-add-contact-menu-click',
 			this.onAddContactMenuClick as EventListener
@@ -49,8 +47,16 @@ export class MyElement extends PolymerElement {
 		console.debug('app polymer handling on-delete-contact');
 		console.debug(contact);
 
-		this.splice('allContacts', contact.detail, 1);
-		console.debug(this.allContacts);
+		let storedContactsList = this.loadStorage();
+		if (storedContactsList.length > 0) {
+			const deletedContact = storedContactsList.splice(contact.detail, 1);
+			deletedContact.forEach((contact: Contact) =>
+				console.debug(`deleted contact ${contact}`)
+			);
+			this.saveStorage(storedContactsList);
+			this.splice('allContacts', contact.detail, 1);
+			console.debug(this.allContacts);
+		}
 	}
 
 	onAddContactMenuClick(event: Event) {
@@ -71,8 +77,24 @@ export class MyElement extends PolymerElement {
 
 	onSaveContact(event: CustomEvent<Contact>) {
 		console.debug('app polymer handling on-save-contact');
+		let storedContactsList = this.loadStorage();
+
+		storedContactsList.push(event.detail);
+		this.saveStorage(storedContactsList);
+
 		this.push('allContacts', event.detail);
 		console.debug(this.allContacts);
+	}
+
+	private loadStorage(): Array<Contact> {
+		let storedContactsList = JSON.parse(localStorage.getItem('contact-list')!);
+		return storedContactsList === null
+			? []
+			: plainToClass(Contact, storedContactsList);
+	}
+
+	private saveStorage(contactList: Array<Contact>) {
+		localStorage.setItem('contact-list', JSON.stringify(contactList));
 	}
 
 	static get template() {

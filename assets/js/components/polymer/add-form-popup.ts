@@ -43,18 +43,8 @@ class AddFormPopup extends PolymerElement {
 				element.value = '';
 			}
 		}
-		this.storeContactList(this.__formData);
 		this.onSaveContactEvent(this.__formData);
 		this.__formData = new Contact();
-	}
-
-	storeContactList(contact: Contact) {
-		let storedContactsList = JSON.parse(localStorage.getItem('contact-list')!);
-		storedContactsList = storedContactsList === null ? [] : storedContactsList;
-		console.debug('add-form-popup trigger add to contact list operation');
-		console.debug(contact);
-		storedContactsList.push(contact);
-		localStorage.setItem('contact-list', JSON.stringify(storedContactsList));
 	}
 
 	onSaveContactEvent(contact: Contact) {
@@ -63,8 +53,6 @@ class AddFormPopup extends PolymerElement {
 			bubbles: true,
 			composed: true
 		});
-		console.debug('add-form-popup trigger on-save-contact event');
-		console.debug(saveContactEvent);
 		this.dispatchEvent(saveContactEvent);
 		this.triggerClosePopupEvent();
 	}
