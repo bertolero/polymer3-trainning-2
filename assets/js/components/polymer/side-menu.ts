@@ -22,7 +22,7 @@ class SideMenu extends PolymerElement {
 	static get template() {
 		return html`
 			<style>
-				@import '/css/global.css';
+				@import 'css/global.css';
 				.logo {
 					text-align: center;
 				}

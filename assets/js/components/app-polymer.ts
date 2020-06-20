@@ -1,8 +1,8 @@
 import { html, PolymerElement } from '@polymer/polymer';
-import { Contact } from './components/polymer/model/contact';
-import './components/polymer/add-form-popup';
-import './components/polymer/side-menu';
-import './components/polymer/content-area';
+import { Contact } from './polymer/model/contact';
+import './polymer/add-form-popup';
+import './polymer/side-menu';
+import './polymer/content-area';
 import { plainToClass } from 'class-transformer';
 
 export class MyElement extends PolymerElement {
@@ -100,7 +100,7 @@ export class MyElement extends PolymerElement {
 	static get template() {
 		return html`
 			<style>
-				@import '/css/global.css';
+				@import 'css/global.css';
 				.main-page {
 					display: grid;
 					grid-template-columns: 250px 1fr;

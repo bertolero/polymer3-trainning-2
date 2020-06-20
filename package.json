@@ -9,6 +9,7 @@
     "dev:webpack": "webpack --mode development --env.NODE_ENV=dev",
     "build:webpack": "webpack --mode production --env.NODE_ENV=production",
     "watch": "gulp",
+    "watch:electron": "gulp default:electron",
     "imgs": "gulp imagemin"
   },
   "author": "",
@@ -20,6 +21,8 @@
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.2",
     "css-loader": "^3.6.0",
+    "electron": "^9.0.4",
+    "electron-builder": "^22.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
@@ -33,6 +36,7 @@
     "jest": "^26.0.1",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
     "prettier-loader": "^3.3.0",
@@ -49,6 +53,9 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.4.1",
-    "class-transformer": "^0.2.3"
+    "class-transformer": "^0.2.3",
+    "electron-log": "^4.2.2",
+    "electron-updater": "^4.3.1",
+    "electron-window-state": "^5.0.3"
   }
 }

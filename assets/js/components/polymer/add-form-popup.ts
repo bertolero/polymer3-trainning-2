@@ -76,7 +76,7 @@ class AddFormPopup extends PolymerElement {
 	static get template() {
 		return html`
 			<style>
-				@import '/css/global.css';
+				@import 'css/global.css';
 				.add-form-popup {
 					background: #2b304c;
 					height: 100vh;
