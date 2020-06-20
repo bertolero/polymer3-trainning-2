@@ -1,5 +1,6 @@
-import { PolymerElement, html } from '@polymer/polymer';
+import { html, PolymerElement } from '@polymer/polymer';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
+import { Contact } from './model/contact';
 
 class FavoritesList extends PolymerElement {
 	ready() {
@@ -8,12 +9,12 @@ class FavoritesList extends PolymerElement {
 
 	static get properties() {
 		return {
-			contacts: { type: Array }
+			contacts: { type: Array<Contact>() }
 		};
 	}
 
-	isFavorite(item) {
-		return item.favorites === 'yes';
+	isFavorite(item: Contact) {
+		return item.favorites;
 	}
 
 	static get template() {
@@ -104,11 +105,11 @@ class FavoritesList extends PolymerElement {
 					<div class="card">
 						<div class="user-img"></div>
 						<div class="fullname">
-							<span class="text">{{item.first_name}} {{item.last_name}}</span>
+							<span class="text">{{item.firstName}} {{item.lastName}}</span>
 							<span class="sub">Name</span>
 						</div>
 						<div class="number">
-							<span class="text"> {{item.phone_number}}</span>
+							<span class="text"> {{item.phoneNumber}}</span>
 							<span class="sub">Phone Number</span>
 						</div>
 						<div class="state">

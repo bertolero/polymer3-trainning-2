@@ -4,8 +4,19 @@ const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync');
 const reload = browserSync.reload;
 const imagemin = require('gulp-imagemin');
-let exec = require('child_process').exec;
+let spawn = require('child_process').spawn;
 let del = require('del');
+
+// helper function
+const webpackHandler = (command, callback) => {
+	const test = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['run', command], { stdio: 'inherit' });
+	test.on('close', code => {
+		if (code && code > 0) {
+			callback(new Error(`Error running webpack. Code: ${code}`));
+		}
+		callback();
+	});
+};
 
 // Delete /public Files
 gulp.task(
@@ -47,24 +58,12 @@ gulp.task(
 // Webpack on Development Mode
 gulp.task(
 	'webpack:dev',
-	gulp.series(cb => {
-		return exec('npm run dev:webpack', function(err, stdout, stderr) {
-			console.log(stdout);
-			console.log(stderr);
-			cb(err);
-		});
-	})
+	gulp.series(cb => webpackHandler('dev:webpack', cb))
 );
 // Webpack on Production Mode
 gulp.task(
 	'webpack:prod',
-	gulp.series(cb => {
-		return exec('npm run build:webpack', function(err, stdout, stderr) {
-			console.log(stdout);
-			console.log(stderr);
-			cb(err);
-		});
-	})
+	gulp.series(cb => webpackHandler('build:webpack', cb))
 );
 
 // Browser-sync to get live reload and sync with mobile devices
@@ -74,7 +73,7 @@ gulp.task(
 		browserSync.init({
 			server: './public',
 			notify: false,
-			open: false, //change this to true if you want the broser to open automatically
+			open: false, //change this to true if you want the browser to open automatically
 			injectChanges: false
 		});
 	})
@@ -83,7 +82,7 @@ gulp.task(
 // Minimise Your Images
 gulp.task(
 	'imagemin',
-	gulp.series(function minizingImages() {
+	gulp.series(function minimizingImages() {
 		return gulp
 			.src('assets/img/**/*')
 			.pipe(
