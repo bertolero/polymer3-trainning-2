@@ -2,7 +2,7 @@
 import { app, BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import path from 'path';
-import { checkForUpdates } from './util/updater';
+import { checkForUpdates } from './main/updater';
 
 function createWindow() {
 
