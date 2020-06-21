@@ -4,8 +4,10 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const reload = browserSync.reload;
 const imagemin = require('gulp-imagemin');
-let spawn = require('child_process').spawn;
-let del = require('del');
+const spawn = require('child_process').spawn;
+const del = require('del');
+const ts = require('gulp-typescript');
+const tsProject = ts.createProject('../tsconfig.electron.json');
 
 // helper function
 const webpackHandler = (env, done) => {
@@ -84,6 +86,13 @@ gulp.task('build:dev',
 	)
 );
 
+// This is the production build for your app
+gulp.task('build:prod',
+	gulp.series(
+		'clean:dist',
+		gulp.parallel('webpack:prod', 'copy:styles', 'copy:imagemin', 'copy:manifest'))
+);
+
 gulp.task('default',
 	gulp.series(
 		'build:dev',
@@ -98,16 +107,19 @@ gulp.task('default',
 		})
 );
 
-// This is the production build for your app
-gulp.task('build:prod',
-	gulp.series(
-		'clean:dist',
-		gulp.parallel('webpack:prod', 'copy:styles', 'copy:imagemin', 'copy:manifest'))
-);
+/*
+Electron build related tasks
+*/
 
-// electron build
+gulp.task('build:electron-ts', function() {
+	return tsProject
+		.src()
+		.pipe(tsProject())
+		.js
+		.pipe(gulp.dest('../public'));
+});
+
 gulp.task('electron:watch', function runElectronWatch(done) {
-	console.log('electron:watch');
 	const spawnedProcess = spawn(/^win/.test(process.platform) ? 'nodemon.cmd' : 'nodemon', ['--watch', 'public', '--exec', 'electron', '../public/electron-app.js'], { stdio: 'inherit' });
 	spawnedProcess.on('close', code => {
 		if (code && code > 0) {
@@ -119,11 +131,11 @@ gulp.task('electron:watch', function runElectronWatch(done) {
 
 gulp.task(
 	'default:electron',
-	gulp.series('build:dev', 'copy:electron', function runningWatch(done) {
+	gulp.series('build:dev', 'build:electron-ts', function runningWatch(done) {
 		gulp.watch('../assets/js/components/**/*', gulp.parallel('webpack:dev'));
 		gulp.watch('../assets/scss/**/*', gulp.parallel('copy:styles'));
 		gulp.watch('../assets/img/**/*', gulp.parallel('copy:imagemin'));
-		gulp.watch('../assets/js/electron/**/*', gulp.parallel('copy:electron'));
+		gulp.watch('../assets/js/electron/**/*', gulp.parallel('build:electron-ts'));
 		gulp.watch('../assets/view/manifest.json', gulp.parallel('copy:manifest'));
 		done();
 	}, 'electron:watch')
