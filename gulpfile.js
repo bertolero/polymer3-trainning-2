@@ -105,7 +105,7 @@ gulp.task('prod',
 // electron build
 gulp.task('electron:watch', function runElectronWatch(done) {
 	console.log('electron:watch');
-	const spawnedProcess = spawn(/^win/.test(process.platform) ? 'nodemon.cmd' : 'nodemon', ['--exec', 'electron', './public/electron-app.js'], { stdio: 'inherit' });
+	const spawnedProcess = spawn(/^win/.test(process.platform) ? 'nodemon.cmd' : 'nodemon', ['--watch','public','--exec', 'electron', './public/electron-app.js'], { stdio: 'inherit' });
 	spawnedProcess.on('close', code => {
 		if (code && code > 0) {
 			done(new Error(`Error running nodemon. Code: ${code}`));
