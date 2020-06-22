@@ -1,8 +1,9 @@
 //Need transpilation
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import path from 'path';
 import { checkForUpdates } from './main/updater';
+import { customMenu } from './renderer/menu';
 
 function createWindow() {
 
@@ -26,7 +27,9 @@ function createWindow() {
 		}
 	});
 
-	mainWindow.loadURL(`file://${path.join(__dirname, 'index.html')}`);
+	mainWindow.loadURL(`file://${path.join(__dirname, 'index.html')}`).catch(error => {
+		throw error;
+	});
 
 	mainWindow.webContents.openDevTools();
 
@@ -38,9 +41,11 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+	customMenu();
 	createWindow();
 
 	if (BrowserWindow.getAllWindows().length === 0) {
+		customMenu();
 		createWindow();
 	}
 });
