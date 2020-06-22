@@ -9,7 +9,7 @@
     "target": "dmg"
   },
   "win": {
-    "certificateFile": "config/private/bertolacademy.pfx",
+    "certificateFile": "private/bertolacademy.pfx",
     "certificatePassword": "",
     "verifyUpdateCodeSignature": false,
     "publisherName": "bertolacademy"

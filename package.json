@@ -5,10 +5,10 @@
   "main": "public/electron-app.js",
   "scripts": {
     "test": "jest --passWithNoTests",
-    "build:app": "gulp -f ./config/gulpfile.js build:prod",
-    "build:electron": "electron-builder -w --config config/electron-builder.json",
+    "build:app": "gulp -f ./config/gulpfile.js build:app-prod",
+    "build:electron": "gulp -f ./config/gulpfile.js electron:prod",
     "watch": "gulp -f config/gulpfile.js",
-    "watch:electron": "gulp -f config/gulpfile.js default:electron",
+    "watch:electron": "gulp -f config/gulpfile.js electron:default",
     "cert:win": "electron-builder create-self-signed-cert -p bertolacademy"
   },
   "repository": "https://github.com/bertolero/polymer3-trainning-2",
