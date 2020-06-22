@@ -9,7 +9,7 @@ module.exports = {
 		main: './assets/js/components/app-polymer.ts'
 	},
 	output: {
-		path: path.resolve(__dirname, '../public'),
+		path: path.resolve(__dirname, '../../public'),
 		filename: '[name].js'
 	},
 	resolve: {
