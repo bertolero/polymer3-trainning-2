@@ -1,15 +1,24 @@
 {
-  "name": "codingphase-dev-kit",
-  "version": "4.0.2",
+  "name": "ContactBook",
+  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "public/electron-app.js",
   "scripts": {
     "test": "jest --passWithNoTests",
-    "build": "gulp -f ./config/gulpfile.js build:prod",
+    "build:app": "gulp -f ./config/gulpfile.js build:prod",
+    "build:electron": "electron-builder -w --config config/electron-builder.json",
     "watch": "gulp -f config/gulpfile.js",
-    "watch:electron": "gulp -f config/gulpfile.js default:electron"
+    "watch:electron": "gulp -f config/gulpfile.js default:electron",
+    "cert:win": "electron-builder create-self-signed-cert -p bertolacademy"
   },
-  "author": "",
+  "repository": "https://github.com/bertolero/polymer3-trainning-2",
+  "homepage": "https://github.com/bertolero/polymer3-trainning-2",
+  "keywords": [
+    "Electron",
+    "Master Electron",
+    "demo"
+  ],
+  "author": "GitHub, Stackacademytv",
   "license": "ISC",
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.4.3",
