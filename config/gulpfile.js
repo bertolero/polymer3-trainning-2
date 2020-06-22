@@ -132,7 +132,7 @@ gulp.task('build:electron-ts', function() {
 
 gulp.task('electron:reload', function(done) {
 	const spawnedProcess = spawn(/^win/.test(process.platform) ? 'nodemon.cmd' : 'nodemon',
-		['--watch', '../public', '--exec', 'electron', '../public/electron-app.js'],
+		['--watch', '../public', '--exec', 'electron', '../public/app-electron.js'],
 		{ stdio: 'inherit' });
 	spawnedProcess.on('close', code => {
 		if (code && code > 0) {

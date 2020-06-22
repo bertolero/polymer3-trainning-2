@@ -1,9 +1,9 @@
 //Need transpilation
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import path from 'path';
 import { checkForUpdates } from './main/updater';
-import { customMenu } from './renderer/menu';
+import { customMenu } from './main/menu';
 
 function createWindow() {
 
