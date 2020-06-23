@@ -23,9 +23,9 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        env:
-          GH_TOKEN: ${{secrets.GB_TOKEN}}
         node-version: ${{ matrix.node-version }}
+      env:
+        GH_TOKEN: ${{secrets.GB_TOKEN}}
     - run: npm ci
     - run: npm run build:electron --if-present
     - run: npm test
