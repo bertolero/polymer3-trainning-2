@@ -57,9 +57,7 @@ class SideMenu extends PolymerElement {
 				<div class="menu">
 					<div class="title">Contacts</div>
 					<nav>
-						<a href="#" on-click="handleAddContactClick">
-							<span class="icon"> + </span> Add Contact</a
-						>
+						<a href="#" on-click="handleAddContactClick"> <span class="icon"> + </span> Add Contact</a>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>

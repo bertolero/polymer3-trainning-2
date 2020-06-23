@@ -7,16 +7,17 @@ export class CustomMenu {
 		const template: MenuItemConstructorOptions[] = [{
 			label: 'Items',
 			submenu: [{
-				label: 'Add Contact',
+				label: 'Open Add Contact',
 				accelerator: 'CmdOrCtrl+O',
 				click: () => {
-					console.debug('electron menu trigger on-add-contact-menu-click event');
 					BrowserWindow.getAllWindows()[0].webContents.send('open-add-contact', {});
 				}
 			}, {
-				label: 'Delete Item',
-				accelerator: 'CmdOrCtrl+Backspace'
-				//click: window.deleteItem
+				label: 'Open Add Contact',
+				accelerator: 'CmdOrCtrl+Backspace',
+				click: () => {
+					BrowserWindow.getAllWindows()[0].webContents.send('close-add-contact', {});
+				}
 			}]
 		}, {
 			role: 'editMenu'

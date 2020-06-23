@@ -30,8 +30,7 @@ class AddFormPopup extends PolymerElement {
 
 	change(event: any) {
 		let name = event.target.name;
-		let value =
-			event.type === 'checkbox' ? event.target.checked : event.target.value;
+		let value = event.type === 'checkbox' ? event.target.checked : event.target.value;
 		this.__formData.addValueOrIgnore(name, value);
 	}
 
@@ -158,13 +157,7 @@ class AddFormPopup extends PolymerElement {
 					cursor: pointer;
 					padding: 10px 25px;
 					background: #d8e0de; /* Old browsers */
-					background: -moz-linear-gradient(
-						top,
-						#d8e0de 0%,
-						#8ea6a2 0%,
-						#4e5c5a 100%,
-						#0e0e0e 100%
-					); /* FF3.6-15 */
+					background: -moz-linear-gradient(top, #d8e0de 0%, #8ea6a2 0%, #4e5c5a 100%, #0e0e0e 100%); /* FF3.6-15 */
 					background: -webkit-linear-gradient(
 						top,
 						#d8e0de 0%,
