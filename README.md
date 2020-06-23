@@ -1,4 +1,4 @@
-![Node.js CI](https://github.com/bertolero/polymer3-trainning-2/workflows/Node.js%20CI/badge.svg?branch=add-electron)
+![Node.js CI](https://github.com/bertolero/polymer3-trainning-2/workflows/Node.js%20CI/badge.svg)
 
 # Dev-Starter-Kit
  *Disclaimer* 
