@@ -24,8 +24,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        GH_TOKEN: ${{secrets.GB_TOKEN}}
     - run: npm ci
+      env:
+        GH_TOKEN: ${{ secrets.GB_TOKEN }}
     - run: npm run build:electron --if-present
     - run: npm test
