@@ -10,9 +10,9 @@ const ts = require('gulp-typescript');
 const tsProject = ts.createProject('../tsconfig.electron.json');
 
 // helper function
-const webpackHandler = (env, done) => {
+const webpackHandler = (env, type, done) => {
 	const spawnedProcess = spawn(/^win/.test(process.platform) ? 'webpack.cmd' : 'webpack',
-		['--mode', env, `--env.NODE_ENV=${env}`, '--config', 'webpack.config.js', '--context', '../'],
+		['--mode', env, `--env.NODE_ENV=${env}`, `--env.type=${type}`, '--config', 'webpack.config.js', '--context', '../'],
 		{ stdio: 'inherit' });
 
 	spawnedProcess.on('close', code => {
@@ -65,9 +65,9 @@ gulp.task('copy:imagemin', function() {
 		.pipe(gulp.dest('../public/img'));
 });
 
-// Watch app files
-gulp.task('watch:app-files', function(done) {
-		gulp.watch('../assets/js/components/**/*', gulp.parallel('webpack:dev'));
+// Watch tasks
+// Watch static files
+gulp.task('watch:app-static-files', function(done) {
 		gulp.watch('../assets/scss/**/*', gulp.parallel('copy:styles'));
 		gulp.watch('../assets/img/**/*', gulp.parallel('copy:imagemin'));
 		gulp.watch('../assets/view/manifest.json', gulp.parallel('copy:manifest'));
@@ -75,25 +75,63 @@ gulp.task('watch:app-files', function(done) {
 	}
 );
 
-// Use Webpack to compile latest Javascript to ES5
-// Webpack on Development Mode
-gulp.task('webpack:dev', done => webpackHandler('development', done));
-// Webpack on Production Mode
-gulp.task('webpack:prod', done => webpackHandler('production', done));
+// Watch app web related files only
+gulp.task('watch:app-web-files',
+	gulp.parallel('watch:app-static-files', function runningAppWebWatch(done) {
+		gulp.watch('../assets/js/components/**/*', gulp.parallel('webpack:app-web-dev'));
+		done();
+	})
+);
 
-// This is your Default Gulp task
-gulp.task('build:app-dev',
+// Watch app web related files only
+gulp.task('watch:app-electron-files',
+	gulp.parallel('watch:app-static-files', function runningAppElectronWatch(done) {
+		gulp.watch('../assets/js/components/**/*', gulp.parallel('webpack:app-electron-dev'));
+		done();
+	})
+);
+
+// Use Webpack to compile latest Javascript to ES5
+// web app
+// Webpack on Development Mode
+gulp.task('webpack:app-web-dev', done => webpackHandler('development', 'web', done));
+// Webpack on Production Mode
+gulp.task('webpack:app-web-prod', done => webpackHandler('production', 'web', done));
+// electron app
+// Webpack on Development Mode
+gulp.task('webpack:app-electron-dev', done => webpackHandler('development', 'electron', done));
+// Webpack on Production Mode
+gulp.task('webpack:app-electron-prod', done => webpackHandler('production', 'electron', done));
+
+// build related tasks
+// build app files for web mode in dev
+gulp.task('build:app-web-dev',
 	gulp.series(
 		'clean:public',
-		gulp.parallel('webpack:dev', 'copy:styles', 'copy:imagemin', 'copy:manifest')
+		gulp.parallel('webpack:app-web-dev', 'copy:styles', 'copy:imagemin', 'copy:manifest')
 	)
 );
 
-// This is the production build for your app
-gulp.task('build:app-prod',
+// build app files for web mode in prod
+gulp.task('build:app-web-prod',
 	gulp.series(
 		'clean:public',
-		gulp.parallel('webpack:prod', 'copy:styles', 'copy:imagemin', 'copy:manifest'))
+		gulp.parallel('webpack:app-web-prod', 'copy:styles', 'copy:imagemin', 'copy:manifest'))
+);
+
+// build app files for electron mode in dev
+gulp.task('build:app-electron-dev',
+	gulp.series(
+		'clean:public',
+		gulp.parallel('webpack:app-electron-dev', 'copy:styles', 'copy:imagemin', 'copy:manifest')
+	)
+);
+
+// build app files for electron mode in prod
+gulp.task('build:app-electron-prod',
+	gulp.series(
+		'clean:public',
+		gulp.parallel('webpack:app-electron-prod', 'copy:styles', 'copy:imagemin', 'copy:manifest'))
 );
 
 // Browser-sync to get live reload and sync with mobile devices
@@ -107,11 +145,12 @@ gulp.task('browser-sync', function(done) {
 	done();
 });
 
+// default web dev run task
 gulp.task('default',
 	gulp.series(
-		'build:app-dev',
+		'build:app-web-dev',
 		'browser-sync',
-		'watch:app-files',
+		'watch:app-web-files',
 		function runningReload(done) {
 			gulp.watch(['../public/**/*', '../public/*']).on('change', reload);
 			done();
@@ -121,7 +160,6 @@ gulp.task('default',
 /*
 Electron build related tasks
 */
-
 gulp.task('build:electron-ts', function() {
 	return tsProject
 		.src()
@@ -132,7 +170,7 @@ gulp.task('build:electron-ts', function() {
 
 gulp.task('electron:reload', function(done) {
 	const spawnedProcess = spawn(/^win/.test(process.platform) ? 'nodemon.cmd' : 'nodemon',
-		['--watch', '../public', '--exec', 'electron', '../public/app-electron.js'],
+		['--watch', '../public', '--exec', 'electron', '../public/app-electron-main-shell.js'],
 		{ stdio: 'inherit' });
 	spawnedProcess.on('close', code => {
 		if (code && code > 0) {
@@ -157,9 +195,9 @@ gulp.task('electron:builder', function(done) {
 gulp.task(
 	'electron:default',
 	gulp.series(
-		'build:app-dev',
+		'build:app-electron-dev',
 		'build:electron-ts',
-		'watch:app-files',
+		'watch:app-electron-files',
 		function runningWatchElectron(done) {
 			gulp.watch('../assets/js/electron/**/*', gulp.parallel('build:electron-ts'));
 			done();
@@ -169,5 +207,5 @@ gulp.task(
 
 gulp.task(
 	'electron:prod',
-	gulp.series('clean:dist', 'build:app-prod', 'build:electron-ts', 'electron:builder')
+	gulp.series('clean:dist', 'build:app-electron-prod', 'build:electron-ts', 'electron:builder')
 );

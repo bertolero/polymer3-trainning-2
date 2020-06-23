@@ -5,17 +5,6 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-	entry: {
-		main: './assets/js/components/app-polymer.ts'
-	},
-	output: {
-		path: path.resolve(__dirname, '../../public'),
-		filename: '[name].js'
-	},
-	resolve: {
-		// see below for an explanation // '[name].[chunkhash].js' put this if you want to get hashed files to cache bust
-		extensions: ['.ts', '.js']
-	},
 	module: {
 		rules: [
 			{
@@ -35,6 +24,10 @@ module.exports = {
 			}
 		]
 	},
+	output: {
+		path: path.resolve(__dirname, '../../public'),
+		filename: '[name].js'
+	},
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: 'styles.css' // 'style.[contenthash].css' put this if you want to get hashed files to cache bust
@@ -51,5 +44,9 @@ module.exports = {
 				context: 'node_modules/@webcomponents/webcomponentsjs'
 			}]
 		})
-	]
+	],
+	resolve: {
+		// see below for an explanation // '[name].[chunkhash].js' put this if you want to get hashed files to cache bust
+		extensions: ['.ts', '.js']
+	}
 };
