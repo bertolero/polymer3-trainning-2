@@ -22,7 +22,7 @@ class SideMenu extends PolymerElement {
 	static get template() {
 		return html`
 			<style>
-				@import '/css/global.css';
+				@import 'css/global.css';
 				.logo {
 					text-align: center;
 				}
@@ -57,9 +57,7 @@ class SideMenu extends PolymerElement {
 				<div class="menu">
 					<div class="title">Contacts</div>
 					<nav>
-						<a href="#" on-click="handleAddContactClick">
-							<span class="icon"> + </span> Add Contact</a
-						>
+						<a href="#" on-click="handleAddContactClick"> <span class="icon"> + </span> Add Contact</a>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>
 						<a href="#"><span class="icon"> + </span> Add Contact</a>

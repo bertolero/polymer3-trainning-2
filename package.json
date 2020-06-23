@@ -1,25 +1,35 @@
 {
-  "name": "codingphase-dev-kit",
-  "version": "4.0.2",
+  "name": "ContactBook",
+  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "public/app-electron-main-shell.js",
   "scripts": {
     "test": "jest --passWithNoTests",
-    "build": "gulp build",
-    "dev:webpack": "webpack --mode development --env.NODE_ENV=dev",
-    "build:webpack": "webpack --mode production --env.NODE_ENV=production",
-    "watch": "gulp",
-    "imgs": "gulp imagemin"
+    "build:app": "gulp -f ./config/gulpfile.js build:app-prod",
+    "build:electron": "gulp -f ./config/gulpfile.js electron:prod",
+    "watch:app": "gulp -f config/gulpfile.js",
+    "watch:electron": "gulp -f config/gulpfile.js electron:default",
+    "cert:win": "electron-builder create-self-signed-cert -p bertolacademy"
   },
-  "author": "",
+  "repository": "https://github.com/bertolero/polymer3-trainning-2",
+  "homepage": "https://github.com/bertolero/polymer3-trainning-2",
+  "keywords": [
+    "Electron",
+    "Master Electron",
+    "demo"
+  ],
+  "author": "GitHub, Stackacademytv",
   "license": "ISC",
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.4.3",
-    "autoprefixer": "^9.8.0",
+    "autoprefixer": "^9.8.1",
     "browser-sync": "^2.26.7",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.2",
     "css-loader": "^3.6.0",
+    "del": "^5.1.0",
+    "electron": "^9.0.4",
+    "electron-builder": "^22.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
@@ -28,27 +38,33 @@
     "gulp-imagemin": "^7.1.0",
     "gulp-pretty-url": "^0.1.1",
     "gulp-sass": "^4.1.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "har-validator": "^5.1.3",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.0.1",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
     "prettier-loader": "^3.3.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
-    "terser-webpack-plugin": "^3.0.4",
+    "terser-webpack-plugin": "^3.0.6",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-md5-hash": "0.0.6"
+    "webpack-md5-hash": "0.0.6",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@polymer/polymer": "^3.4.1",
-    "class-transformer": "^0.2.3"
+    "class-transformer": "^0.2.3",
+    "electron-log": "^4.2.2",
+    "electron-updater": "^4.3.1",
+    "electron-window-state": "^5.0.3"
   }
 }

@@ -12,7 +12,7 @@ class ContentArea extends PolymerElement {
 	static get template() {
 		return html`
 			<style>
-				@import '/css/global.css';
+				@import 'css/global.css';
 				#content-area {
 					background: #fcfdff;
 					padding: 50px 80px;

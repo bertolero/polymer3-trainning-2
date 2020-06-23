@@ -1,8 +1,8 @@
 import { html, PolymerElement } from '@polymer/polymer';
-import { Contact } from './components/polymer/model/contact';
-import './components/polymer/add-form-popup';
-import './components/polymer/side-menu';
-import './components/polymer/content-area';
+import { Contact } from './polymer/model/contact';
+import './polymer/add-form-popup';
+import './polymer/side-menu';
+import './polymer/content-area';
 import { plainToClass } from 'class-transformer';
 
 export class MyElement extends PolymerElement {
@@ -18,19 +18,13 @@ export class MyElement extends PolymerElement {
 	ready() {
 		super.ready();
 		this.allContacts = this.loadStorage();
-		this.addEventListener(
-			'on-add-contact-menu-click',
-			this.onAddContactMenuClick as EventListener
-		);
-		this.addEventListener(
-			'on-save-contact',
-			this.onSaveContact as EventListener
-		);
-		this.addEventListener(
-			'on-delete-contact',
-			this.onDeleteContact as EventListener
-		);
+		this.addEventListener('on-add-contact-menu-click', this.onAddContactMenuClick as EventListener);
+		this.addEventListener('on-save-contact', this.onSaveContact as EventListener);
+		this.addEventListener('on-delete-contact', this.onDeleteContact as EventListener);
 		this.addEventListener('on-close-popup', this.onClosePopup as EventListener);
+		// custom bindings
+		this.onElectronOpenAddContactMenuClick = this.onElectronOpenAddContactMenuClick.bind(this);
+		this.onElectronCloseAddContactMenuClick = this.onElectronCloseAddContactMenuClick.bind(this);
 	}
 
 	static get properties() {
@@ -43,16 +37,13 @@ export class MyElement extends PolymerElement {
 		};
 	}
 
+	// handle events within polymer elements
 	onDeleteContact(contact: CustomEvent<number>) {
-		console.debug('app polymer handling on-delete-contact');
 		console.debug(contact);
-
 		let storedContactsList = this.loadStorage();
 		if (storedContactsList.length > 0) {
 			const deletedContact = storedContactsList.splice(contact.detail, 1);
-			deletedContact.forEach((contact: Contact) =>
-				console.debug(`deleted contact ${contact}`)
-			);
+			deletedContact.forEach((contact: Contact) => console.debug(`deleted contact ${contact}`));
 			this.saveStorage(storedContactsList);
 			this.splice('allContacts', contact.detail, 1);
 			console.debug(this.allContacts);
@@ -60,12 +51,10 @@ export class MyElement extends PolymerElement {
 	}
 
 	onAddContactMenuClick(event: Event) {
-		console.debug('app polymer handling on-add-contact-menu-click');
 		this.changePopupVisibility();
 	}
 
 	onClosePopup(event: CustomEvent<boolean>) {
-		console.debug('app polymer handling on-close-popup');
 		this.changePopupVisibility();
 	}
 
@@ -86,11 +75,44 @@ export class MyElement extends PolymerElement {
 		console.debug(this.allContacts);
 	}
 
+	onElectronOpenAddContactMenuClick(event: CustomEvent<string>) {
+		console.debug(event);
+		this.changePopupVisibility();
+	}
+
+	onElectronCloseAddContactMenuClick(event: CustomEvent<string>) {
+		console.debug(event);
+		this.changePopupVisibility();
+	}
+
+	// handle events from electron ipc channels
+	connectedCallback() {
+		super.connectedCallback();
+		window.addEventListener(
+			'on-electron-open-add-contact-menu-click',
+			this.onElectronOpenAddContactMenuClick as EventListener
+		);
+		window.addEventListener(
+			'on-electron-close-add-contact-menu-click',
+			this.onElectronCloseAddContactMenuClick as EventListener
+		);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		window.removeEventListener(
+			'on-electron-open-add-contact-menu-click',
+			this.onElectronOpenAddContactMenuClick as EventListener
+		);
+		window.removeEventListener(
+			'on-electron-close-add-contact-menu-click',
+			this.onElectronCloseAddContactMenuClick as EventListener
+		);
+	}
+
 	private loadStorage(): Array<Contact> {
 		let storedContactsList = JSON.parse(localStorage.getItem('contact-list')!);
-		return storedContactsList === null
-			? []
-			: plainToClass(Contact, storedContactsList);
+		return storedContactsList === null ? [] : plainToClass(Contact, storedContactsList);
 	}
 
 	private saveStorage(contactList: Array<Contact>) {
@@ -100,7 +122,7 @@ export class MyElement extends PolymerElement {
 	static get template() {
 		return html`
 			<style>
-				@import '/css/global.css';
+				@import 'css/global.css';
 				.main-page {
 					display: grid;
 					grid-template-columns: 250px 1fr;

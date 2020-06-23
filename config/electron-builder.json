@@ -1,0 +1,21 @@
+{
+  "appId": "com.bertol.readit",
+  "copyright": "Copyright 2020 Bertol Informática",
+  "publish": {
+    "provider": "github"
+  },
+  "mac": {
+    "category": "public.app-category.productivity",
+    "target": "dmg"
+  },
+  "win": {
+    "certificateFile": "private/bertolacademy.pfx",
+    "certificatePassword": "",
+    "verifyUpdateCodeSignature": false,
+    "publisherName": "bertolacademy"
+  },
+  "linux": {
+    "category": "Utility"
+  }
+}
+
