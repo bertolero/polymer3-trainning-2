@@ -1,4 +1,4 @@
-![Node.js CI](https://github.com/bertolero/polymer3-trainning-2/workflows/Node.js%20CI/badge.svg)
+![Node.js CI](https://github.com/bertolero/polymer3-trainning-2/workflows/Node.js%20CI/badge.svg?branch=add-electron)
 
 # Dev-Starter-Kit
  *Disclaimer* 
@@ -35,34 +35,24 @@ We updated to version 4.0 of gulp so you should have no problems
   webpack -v
 ```
 
-**Start the dev server**
+**Start the web app dev server**
 ```bash
-  npm run watch
+  npm run watch:app
 ```
 
-**Start the dev server with proxy**
+**Start the electron app dev**
 ```bash
-  npm run proxy
+  npm run watch:electron
 ```
 
-**Build files for production**
+**Build web app files for production**
 ```bash
-  npm run build
+  npm run build:app
 ```
 
-**Optimize Your Images**
+**Build electron app files for production**
 ```bash
-  npm run imgs
-```
-
-**Static Site Generator Development**
-```bash
-  npm run static:dev
-```
-
-**Static Site Generator Production**
-```bash
-  npm run static:build
+  npm run build:electron
 ```
 
 
