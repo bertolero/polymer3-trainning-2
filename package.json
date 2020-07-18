@@ -5,8 +5,8 @@
   "main": "public/app-electron-main-shell.js",
   "scripts": {
     "test": "jest --passWithNoTests",
-    "build:app": "gulp -f ./config/gulpfile.js build:app-prod",
-    "build:electron": "gulp -f ./config/gulpfile.js electron:prod",
+    "build:app": "gulp -f ./config/gulpfile.js build:app-web-prod",
+    "build:electron": "gulp -f ./config/gulpfile.js build:app-electron-prod",
     "watch:app": "gulp -f config/gulpfile.js",
     "watch:electron": "gulp -f config/gulpfile.js electron:default",
     "cert:win": "electron-builder create-self-signed-cert -p bertolacademy"
