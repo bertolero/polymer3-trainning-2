@@ -1,15 +1,16 @@
 import { BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
-import { checkForUpdates } from './updater';
+import { Updater } from './updater';
 
 export class MainWindow {
+	private readonly updater: Updater;
 
 	constructor(private readonly indexPath: string) {
+		this.updater = new Updater();
 	}
 
 	create() {
-
-		setTimeout(checkForUpdates, 3000);
+		setTimeout(this.updater.check, 3000);
 
 		const state = windowStateKeeper({
 			defaultWidth: 800,
@@ -29,7 +30,7 @@ export class MainWindow {
 			}
 		});
 
-		mainWindow.loadURL(`file://${this.indexPath}`).catch(error => {
+		mainWindow.loadURL(`file://${this.indexPath}`).catch((error) => {
 			throw error;
 		});
 
