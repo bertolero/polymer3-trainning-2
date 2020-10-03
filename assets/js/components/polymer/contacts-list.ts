@@ -130,9 +130,7 @@ class ContactsList extends PolymerElement {
 							<span class="text">{{item.category}}</span>
 							<span class="sub">Category</span>
 						</div>
-						<div class="delete-btn" on-click="handleDeleteContact">
-							Delete
-						</div>
+						<div class="delete-btn" on-click="handleDeleteContact">Delete</div>
 					</div>
 				</template>
 			</section>
